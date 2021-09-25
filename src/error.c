@@ -32,19 +32,30 @@ int error_on_file(int file)
     return (0);
 }
 
+void usage()
+{
+    write(2, "USAGE\n\t./bsq file\n", 18);
+    write(2, "DESCRIPTION\n\tfile\tfile that contains the map ", 45);
+    write(2, "(see README.md for the description of a map)\n", 45);
+}
+
 int error(int argc, char **argv)
 {
     int file = open(argv[1], O_RDONLY);
 
     if (argc != 2) {
         write(2, "Error arguments.\n", 17);
+        usage();
         return (84);
     }
     if (file <= 0) {
         write(2, "No file has this name.\n", 23);
+        usage();
         return (84);
     }
-    if (error_on_file(file) == 84)
+    if (error_on_file(file) == 84) {
+        usage();
         return (84);
+    }
     return (0);
 }
